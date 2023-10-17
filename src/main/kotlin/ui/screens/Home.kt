@@ -26,6 +26,7 @@ fun Home() {
     BottomSheetScaffold(
         modifier = Modifier.clip(RoundedCornerShape(16.dp)),
         backgroundColor = MaterialTheme.colorScheme.surface,
+        sheetPeekHeight = 100.dp,
         sheetShape = RoundedCornerShape(16.dp),
         sheetContent = {
             Details(input)
@@ -38,6 +39,7 @@ fun Home() {
                 Spacer(Modifier.height(15.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     TextField(
+                        modifier = Modifier.fillMaxWidth(.6f),
                         value = input,
                         onValueChange = {
                             input = it
