@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import ui.screens.Currency
+import ui.screens.About
 import ui.screens.Home
 
 @Composable
@@ -35,7 +35,7 @@ fun App() {
                         Icon(imageVector = Icons.Default.Home, "home")
                     }
                     IconButton(onClick = {
-                        screen = SCREENS.CURRENCY
+                        screen = SCREENS.ABOUT
                     }) {
                         Icon(imageVector = Icons.Default.AccountBox, "home")
                     }
@@ -43,7 +43,7 @@ fun App() {
 
                 when (screen) {
                     SCREENS.HOME -> Home()
-                    SCREENS.CURRENCY -> Currency()
+                    SCREENS.ABOUT-> About()
                 }
             }
     }
@@ -57,5 +57,5 @@ fun main() = application {
 
 enum class SCREENS {
     HOME,
-    CURRENCY
+    ABOUT
 }

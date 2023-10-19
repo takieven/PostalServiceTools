@@ -1,17 +1,22 @@
+import ui.screens.SerialType
+
 object Utils {
-    fun checkDigit(serial: String): Boolean {
+    fun checkDigit(serial: String, mod: Int = 9): Boolean {
         var sum = 0
-        if (serial.length!=11) {
-            return false
-        }
         return try {
             for (i in 0 until serial.lastIndex) {
                 sum += serial[i].digitToInt()
             }
-            sum%(serial.length-2) == serial.last().digitToInt()
+            println("sum: $sum, mod: $mod, 56mod11: ${sum%mod}")
+            sum%mod == serial.last().digitToInt()
         } catch (e: Exception) {
             false
         }
+    }
+
+    fun validateISBN(serial: String): Boolean {
+        val checkDigit = generateISBNCheckDigit(serial.dropLast(1))
+        return checkDigit == serial.last().digitToInt()
     }
 
     fun generateSerial(digits: Int): String {
@@ -24,13 +29,31 @@ object Utils {
         return serial.joinToString("")
     }
 
-    fun generateCheckDigit(mod: Int = 9, serial: String): String {
+    fun generateCheckDigit(mod: Int = 9, serial: String): Int {
         var sum = 0
             for (i in 0..serial.lastIndex) {
                 sum += serial[i].digitToInt()
             }
-        val checkDigit = sum%mod
+        return sum%mod
+    }
 
-        return serial+checkDigit
+    fun generateISBNCheckDigit(serial: String): Int {
+        var sum = 0
+        for (i in 0..serial.lastIndex) {
+            var digit = serial[i].digitToInt()
+            if (i%2==0) {
+                digit *= 3
+            }
+            sum += digit
+        }
+        return 10-(sum%10)
+    }
+
+    fun getType(serial: String): SerialType {
+        return when (serial.length) {
+            13 -> SerialType.ISBN
+            11 -> SerialType.USPS
+            else -> SerialType.INVALID
+        }
     }
 }
