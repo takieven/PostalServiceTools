@@ -34,8 +34,6 @@ fun Home() {
             SerialType.UPC -> TODO()
             SerialType.USPS -> Utils.checkDigit(input)
         }
-        println(valid)
-        println(type)
     }
 
     BottomSheetScaffold(

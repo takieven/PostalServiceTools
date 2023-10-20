@@ -15,7 +15,6 @@ object Utils {
             for (i in 0 until serial.lastIndex) {
                 sum += serial[i].digitToInt()
             }
-            println("sum: $sum, mod: $mod, 56mod11: ${sum%mod}")
             sum%mod == serial.last().digitToInt()
         } catch (e: Exception) {
             false

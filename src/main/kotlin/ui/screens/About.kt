@@ -1,6 +1,5 @@
 package ui.screens
 
-import Utils
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,8 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.asComposeImageBitmap
-import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
@@ -28,15 +25,29 @@ fun About() {
             },
         ) {
             Box(Modifier.fillMaxSize()) {
-                Column(Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Header(text = "Group 6")
-                    Spacer(Modifier.height(10.dp))
-                    Column {
-                        Profile("Steven Miranda", Icons.Default.AccountBox)
-                        Profile("Rustan Saquing", Icons.Default.AccountBox)
-                        Profile("Jeferson Paguila", Icons.Default.AccountBox)
+            Column(Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
+                Card(Modifier.width(500.dp).fillMaxWidth()) {
+                    Column(Modifier.padding(30.dp).fillMaxWidth(),horizontalAlignment = Alignment.CenterHorizontally) {
+                        Header(text = "Group 6")
+                        Spacer(Modifier.height(10.dp))
+                        Column {
+                            Profile("Steven Miranda", Icons.Default.AccountBox)
+                            Profile("Rustan Saquing", Icons.Default.AccountBox)
+                            Profile("Jeferson Paguila", Icons.Default.AccountBox)
+                        }
                     }
                 }
+                Spacer(Modifier.height(10.dp))
+                Card(Modifier.width(500.dp)) {
+                    Column(Modifier.padding(30.dp).fillMaxWidth(),horizontalAlignment = Alignment.CenterHorizontally) {
+                        Header(text = "Libraries Used")
+                        Spacer(Modifier.height(10.dp))
+                        Column {
+                            Text("qr code generator: com.google.zxing:javase:3.5.2")
+                        }
+                    }
+                }
+            }
             }
         }
 }
