@@ -1,12 +1,12 @@
 package ui.screens
 
 import Utils
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.rememberBottomSheetScaffoldState
@@ -15,10 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
-import jdk.jshell.execution.Util
-import java.security.cert.CertPathValidator
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -58,6 +55,13 @@ fun Home() {
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Column(Modifier.align(Alignment.Center).offset(0.dp, (-50).dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                Box {
+                    Image(
+                        modifier = Modifier.align(Alignment.TopStart),
+                        bitmap = Utils.createBarcodeBitmap(input),
+                        contentDescription = "barcode"
+                    )
+                }
                 Spacer(Modifier.height(15.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     TextField(

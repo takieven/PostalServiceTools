@@ -21,6 +21,10 @@ dependencies {
     // With compose.desktop.common you will also lose @Preview functionality
     implementation(compose.material3)
     implementation(compose.desktop.currentOs)
+
+    // barcode
+    implementation("com.google.zxing:javase:3.5.2")
+
     testImplementation("junit:junit:4.13.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 }

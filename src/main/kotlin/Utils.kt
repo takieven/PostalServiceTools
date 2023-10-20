@@ -1,3 +1,11 @@
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asComposeImageBitmap
+import androidx.compose.ui.graphics.toComposeImageBitmap
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.client.j2se.MatrixToImageWriter
+import com.google.zxing.oned.Code128Writer
+import org.jetbrains.skia.*
+import org.jetbrains.skiko.toBitmap
 import ui.screens.SerialType
 
 object Utils {
@@ -55,5 +63,10 @@ object Utils {
             11 -> SerialType.USPS
             else -> SerialType.INVALID
         }
+    }
+
+    fun createBarcodeBitmap(input: String): ImageBitmap {
+        val matrix = Code128Writer().encode(input, BarcodeFormat.CODE_128, 300, 65)
+        return MatrixToImageWriter.toBufferedImage(matrix).toBitmap().asComposeImageBitmap()
     }
 }
