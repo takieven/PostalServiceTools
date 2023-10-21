@@ -7,16 +7,8 @@ import org.jetbrains.skiko.toBitmap
 import ui.screens.SerialType
 
 object Utils {
-    fun checkDigit(serial: String, mod: Int = 9): Boolean {
-        var sum = 0
-        return try {
-            for (i in 0 until serial.lastIndex) {
-                sum += serial[i].digitToInt()
-            }
-            sum%mod == serial.last().digitToInt()
-        } catch (e: Exception) {
-            false
-        }
+    fun checkDigit(serial: String, mod: Int): Boolean {
+        return serial.last().digitToInt() == generateCheckDigit(mod, serial.dropLast(1))
     }
 
     fun validateISBN(serial: String): Boolean {
@@ -34,27 +26,20 @@ object Utils {
         return serial.joinToString("")
     }
 
-    fun generateCheckDigit(mod: Int = 9, serial: String): Int {
-        var sum = 0
-            for (i in 0..serial.lastIndex) {
-                sum += serial[i].digitToInt()
-            }
-        return sum%mod
+    fun generateCheckDigit(mod: Int, serial: String): Int {
+        serial.map { it.digitToInt() }.sum().let {
+            return it%mod
+        }
     }
 
-    fun generateISBNCheckDigit(serial: String): Int? {
-        return try {
-            var sum = 0
-            for (i in 0..serial.lastIndex) {
-                var digit = serial[i].digitToInt()
-                if (i % 2 == 0) {
-                    digit *= 3
-                }
-                sum += digit
+    fun generateISBNCheckDigit(serial: String): Int {
+        serial.map { it.digitToInt() }.mapIndexed { i, digit ->
+            if (i % 2 == 0) {
+                digit * 3
             }
-            10 - (sum % 10)
-        } catch (e: Exception) {
-            null
+            digit
+        }.sum().let {
+            return 10 - (it % 10)
         }
     }
 
