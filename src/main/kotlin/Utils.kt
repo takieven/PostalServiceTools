@@ -21,7 +21,7 @@ object Utils {
 
     fun validateISBN(serial: String): Boolean {
         val checkDigit = generateISBNCheckDigit(serial.dropLast(1))
-        return checkDigit == serial.last().digitToInt()
+        return checkDigit == try {serial.last().digitToInt()} catch (e: Exception) {false}
     }
 
     fun generateSerial(digits: Int): String {
@@ -42,16 +42,20 @@ object Utils {
         return sum%mod
     }
 
-    fun generateISBNCheckDigit(serial: String): Int {
-        var sum = 0
-        for (i in 0..serial.lastIndex) {
-            var digit = serial[i].digitToInt()
-            if (i%2==0) {
-                digit *= 3
+    fun generateISBNCheckDigit(serial: String): Int? {
+        return try {
+            var sum = 0
+            for (i in 0..serial.lastIndex) {
+                var digit = serial[i].digitToInt()
+                if (i % 2 == 0) {
+                    digit *= 3
+                }
+                sum += digit
             }
-            sum += digit
+            10 - (sum % 10)
+        } catch (e: Exception) {
+            null
         }
-        return 10-(sum%10)
     }
 
     fun getType(serial: String): SerialType {
