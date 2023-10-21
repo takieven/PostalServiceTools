@@ -4,7 +4,6 @@ import Utils
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
@@ -16,14 +15,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun Home() {
     var input by remember { mutableStateOf(Utils.generateSerial(11)) }
-    var valid by remember { mutableStateOf(Utils.checkDigit(input)) }
+    var valid by remember { mutableStateOf(Utils.checkDigit(input, 9)) }
     var type by remember { mutableStateOf(Utils.getType(input)) }
 
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
@@ -34,7 +32,7 @@ fun Home() {
             SerialType.INVALID -> false
             SerialType.ISBN -> Utils.validateISBN(input)
             SerialType.UPC -> TODO()
-            SerialType.USPS -> Utils.checkDigit(input)
+            SerialType.USPS -> Utils.checkDigit(input, 9)
         }
     }
 
@@ -65,11 +63,10 @@ fun Home() {
                 Spacer(Modifier.height(15.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     TextField(
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier.fillMaxWidth(.6f),
                         value = input,
                         onValueChange = {
-                            input = it
+                            input = it.filter { digit -> digit.isDigit() }
                             update()
                         },
                         placeholder = { Text("Serial number") },
