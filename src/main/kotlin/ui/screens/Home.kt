@@ -4,6 +4,7 @@ import Utils
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
@@ -15,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
@@ -37,7 +39,7 @@ fun Home() {
     }
 
     BottomSheetScaffold(
-        modifier = Modifier.clip(RoundedCornerShape(16.dp)),
+        modifier = Modifier.clip(RoundedCornerShape(16.dp, 0.dp, 0.dp)),
         topBar = {
             TopAppBar(
                 title = { Text("Validate a Serial Number", color = MaterialTheme.colorScheme.primary) },
@@ -45,7 +47,7 @@ fun Home() {
         },
         backgroundColor = MaterialTheme.colorScheme.surface,
         sheetPeekHeight = 100.dp,
-        sheetShape = RoundedCornerShape(16.dp),
+        sheetShape = RoundedCornerShape(16.dp, 16.dp, 0.dp),
         sheetContent = {
             Details(input, valid)
         },
@@ -63,6 +65,7 @@ fun Home() {
                 Spacer(Modifier.height(15.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     TextField(
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier.fillMaxWidth(.6f),
                         value = input,
                         onValueChange = {
