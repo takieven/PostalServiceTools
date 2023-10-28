@@ -1,5 +1,6 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
@@ -27,14 +28,19 @@ fun App() {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Column {
-                    IconButton(onClick = {
-                        screen = SCREENS.HOME
-                    }) {
-                        Icon(imageVector = Icons.Default.Home, "home")
+                    IconToggleButton(
+                        checked = screen == SCREENS.HOME,
+                        onCheckedChange = {
+                            screen = SCREENS.HOME
+                        }) {
+                        Icon(imageVector = Icons.Default.Home, contentDescription = "home")
                     }
-                    IconButton(onClick = {
-                        screen = SCREENS.ABOUT
-                    }) {
+                    IconToggleButton(
+                        checked = screen == SCREENS.ABOUT,
+                        onCheckedChange = {
+                            screen = SCREENS.ABOUT
+                        }
+                    ) {
                         Icon(imageVector = Icons.Default.AccountBox, "home")
                     }
                 }
