@@ -8,6 +8,7 @@ import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material3.*
@@ -15,9 +16,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asComposeImageBitmap
 import androidx.compose.ui.unit.dp
+import com.google.zxing.client.j2se.MatrixToImageWriter
+import org.jetbrains.skiko.toBitmap
+import java.nio.file.Paths
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun Home() {
     var input by remember { mutableStateOf(Utils.generateSerial(11)) }
@@ -54,11 +59,28 @@ fun Home() {
         Box(modifier = Modifier.fillMaxSize()) {
             Column(Modifier.align(Alignment.Center).offset(0.dp, (-50).dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Box {
-                    Image(
-                        modifier = Modifier.align(Alignment.TopStart),
-                        bitmap = Utils.createBarcodeBitmap(input),
-                        contentDescription = "barcode"
-                    )
+                    Utils.createBarcodeBitmap(input)?.let { matrix ->
+                        MatrixToImageWriter.toBufferedImage(matrix).toBitmap().asComposeImageBitmap().let {
+                            Row(
+                                modifier = Modifier.align(Alignment.TopStart),
+                            ) {
+                                Image(
+                                    bitmap = it,
+                                    contentDescription = "barcode"
+                                )
+                                IconButton(onClick = {
+                                    val downloadsFolder = "C:/Users/" + System.getProperty("user.name") + "/Downloads/"
+                                    MatrixToImageWriter.writeToPath(
+                                        matrix,
+                                        "png",
+                                        Paths.get(downloadsFolder, "barcode.png")
+                                    )
+                                }) {
+                                    Icon(imageVector = Icons.Default.Download, "details")
+                                }
+                            }
+                        }
+                    }
                 }
                 Spacer(Modifier.height(15.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -82,7 +104,7 @@ fun Home() {
 
                 Spacer(Modifier.height(3.dp))
 
-                Row {
+                FlowRow(Modifier.padding(10.dp, 0.dp)) {
                     Button(onClick = {
                         input = Utils.generateSerial(11)
                         update()
