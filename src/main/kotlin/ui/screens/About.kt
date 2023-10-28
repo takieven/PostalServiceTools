@@ -26,7 +26,7 @@ fun About() {
         ) {
             Box(Modifier.fillMaxSize()) {
             Column(Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
-                Card(Modifier.width(500.dp).fillMaxWidth()) {
+                Card(Modifier.fillMaxWidth(.8f)) {
                     Column(Modifier.padding(30.dp).fillMaxWidth(),horizontalAlignment = Alignment.CenterHorizontally) {
                         Header(text = "Group 6")
                         Spacer(Modifier.height(10.dp))
@@ -38,7 +38,7 @@ fun About() {
                     }
                 }
                 Spacer(Modifier.height(10.dp))
-                Card(Modifier.width(500.dp)) {
+                Card(Modifier.fillMaxWidth(.8f)) {
                     Column(Modifier.padding(30.dp).fillMaxWidth(),horizontalAlignment = Alignment.CenterHorizontally) {
                         Header(text = "Libraries Used")
                         Spacer(Modifier.height(10.dp))
