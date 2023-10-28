@@ -28,19 +28,8 @@ import java.nio.file.Paths
 fun Home() {
     var input by remember { mutableStateOf(Utils.generateSerial(11)) }
     var valid by remember { mutableStateOf(Utils.checkDigit(input, 9)) }
-    var type by remember { mutableStateOf(Utils.getType(input)) }
 
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
-
-    fun update() {
-        type = Utils.getType(input)
-        valid = when (type) {
-            SerialType.INVALID -> false
-            SerialType.ISBN -> Utils.validateISBN(input)
-            SerialType.UPC -> TODO()
-            SerialType.USPS -> Utils.checkDigit(input, 9)
-        }
-    }
 
     BottomSheetScaffold(
         modifier = Modifier.clip(RoundedCornerShape(16.dp, 0.dp, 0.dp)),
@@ -90,7 +79,7 @@ fun Home() {
                         value = input,
                         onValueChange = {
                             input = it.filter { digit -> digit.isDigit() }
-                            update()
+                            valid = Utils.checkDigit(input, 9)
                         },
                         placeholder = { Text("Serial number") },
                         isError = !valid,
@@ -108,7 +97,7 @@ fun Home() {
                 FlowRow(Modifier.padding(10.dp, 0.dp)) {
                     Button(onClick = {
                         input = Utils.generateSerial(11)
-                        update()
+                        valid = Utils.checkDigit(input, 9)
                     },
                         enabled = when (!valid) {false->true; true->false}
                     ) {
@@ -118,11 +107,8 @@ fun Home() {
                     Spacer(Modifier.width(10.dp))
 
                     Button(onClick = {
-                        when (input.length) {
-                            12 -> input += Utils.generateISBNCheckDigit(input)
-                            10 -> input += Utils.generateCheckDigit(9, input)
-                        }
-                        update()
+                        input += Utils.generateCheckDigit(9, input)
+                        valid = Utils.checkDigit(input, 9)
                     },
                         enabled = when (valid) {false->true; true->false}
                     ) {
@@ -171,11 +157,4 @@ fun Details(serial: String, valid: Boolean) {
 @Composable
 fun Header(text: String, modifier: Modifier = Modifier) {
     Text(modifier = modifier, text = text, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.tertiary)
-}
-
-enum class SerialType {
-    ISBN,
-    UPC,
-    USPS,
-    INVALID
 }

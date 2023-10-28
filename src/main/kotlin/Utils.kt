@@ -1,16 +1,13 @@
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.oned.Code128Writer
-import ui.screens.SerialType
 
 object Utils {
     fun checkDigit(serial: String, mod: Int): Boolean {
-        return serial.last().digitToInt() == generateCheckDigit(mod, serial.dropLast(1))
-    }
+        if (serial.isEmpty()) return false
+        if (serial.length != 11) return false
 
-    fun validateISBN(serial: String): Boolean {
-        val checkDigit = generateISBNCheckDigit(serial.dropLast(1))
-        return checkDigit == try {serial.last().digitToInt()} catch (e: Exception) {false}
+        return serial.last().digitToInt() == generateCheckDigit(mod, serial.dropLast(1))
     }
 
     fun generateSerial(digits: Int): String {
@@ -26,25 +23,6 @@ object Utils {
     fun generateCheckDigit(mod: Int, serial: String): Int {
         serial.map { it.digitToInt() }.sum().let {
             return it%mod
-        }
-    }
-
-    fun generateISBNCheckDigit(serial: String): Int {
-        serial.map { it.digitToInt() }.mapIndexed { i, digit ->
-            if (i % 2 == 0) {
-                digit * 3
-            }
-            digit
-        }.sum().let {
-            return 10 - (it % 10)
-        }
-    }
-
-    fun getType(serial: String): SerialType {
-        return when (serial.length) {
-            13 -> SerialType.ISBN
-            11 -> SerialType.USPS
-            else -> SerialType.INVALID
         }
     }
 
