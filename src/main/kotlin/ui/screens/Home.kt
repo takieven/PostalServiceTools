@@ -47,6 +47,8 @@ fun Home() {
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Column(Modifier.align(Alignment.Center).offset(0.dp, (-50).dp), horizontalAlignment = Alignment.CenterHorizontally) {
+
+                // Barcode stuff
                 Box {
                     Utils.createBarcodeBitmap(input)?.let { matrix ->
                         MatrixToImageWriter.toBufferedImage(matrix).toBitmap().asComposeImageBitmap().let {
@@ -71,7 +73,10 @@ fun Home() {
                         }
                     }
                 }
+
                 Spacer(Modifier.height(15.dp))
+
+                // Input Textfield
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     TextField(
                         modifier = Modifier.fillMaxWidth(.6f),
@@ -93,6 +98,7 @@ fun Home() {
 
                 Spacer(Modifier.height(3.dp))
 
+                // The lower buttons
                 FlowRow(Modifier.padding(10.dp, 0.dp)) {
                     Button(onClick = {
                         input = Utils.generateSerial(11)
@@ -119,6 +125,7 @@ fun Home() {
     }
 }
 
+// Solution BottomSheet
 @Composable
 fun Details(serial: String, valid: Boolean) {
     Column(Modifier.padding(10.dp)) {

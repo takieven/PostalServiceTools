@@ -55,11 +55,11 @@ fun App() {
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "USPS App",
+        title = "CheckMate USPS",
     ) {
         Surface(
             color = Color(55, 55, 55),
-            ) {
+        ) {
             App()
         }
     }
