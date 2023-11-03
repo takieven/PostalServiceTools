@@ -7,9 +7,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Download
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.Help
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -20,6 +19,7 @@ import androidx.compose.ui.graphics.asComposeImageBitmap
 import androidx.compose.ui.unit.dp
 import com.google.zxing.client.j2se.MatrixToImageWriter
 import org.jetbrains.skiko.toBitmap
+import ui.components.AlertDialogExample
 import java.nio.file.Paths
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
@@ -27,6 +27,7 @@ import java.nio.file.Paths
 fun Home() {
     var input by remember { mutableStateOf(Utils.generateSerial(11)) }
     var valid by remember { mutableStateOf(Utils.checkDigit(input, 9)) }
+    var showHelp by remember { mutableStateOf(false) }
 
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
 
@@ -34,7 +35,15 @@ fun Home() {
         modifier = Modifier.clip(RoundedCornerShape(16.dp, 0.dp, 0.dp)),
         topBar = {
             TopAppBar(
+                modifier = Modifier.padding(end = 10.dp),
                 title = { Text("Validate a Serial Number", color = MaterialTheme.colorScheme.primary) },
+                actions = {
+                    IconButton(onClick = {
+                        showHelp = !showHelp
+                    }) {
+                        Icon(imageVector = Icons.Outlined.Help, contentDescription = null)
+                    }
+                }
             )
         },
         backgroundColor = MaterialTheme.colorScheme.surface,
@@ -46,6 +55,25 @@ fun Home() {
         scaffoldState = bottomSheetScaffoldState
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
+
+            if (showHelp) {
+                AlertDialogExample(
+                    modifier = Modifier.fillMaxWidth(.6f),
+                    onDismissRequest = { showHelp = false },
+                    onConfirmation = {
+                        showHelp = false
+                    },
+                    dialogTitle = "Help",
+                    content = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.Download, contentDescription = null)
+                            Spacer(Modifier.width(10.dp))
+                            Text("Click the download button besides the barcode to extract the barcode.png file to your downloads folder.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                    }
+                )
+            }
+
             Column(Modifier.align(Alignment.Center).offset(0.dp, (-50).dp), horizontalAlignment = Alignment.CenterHorizontally) {
 
                 // Barcode stuff
@@ -133,6 +161,7 @@ fun Details(serial: String, valid: Boolean) {
         Text("The United States Postal Service (USPS) uses 11-digit serial numbers on its money orders. The first ten digits identify the document, and the last digit is the check digit")
         Divider(Modifier.padding(0.dp, 10.dp))
 
+        // We only show the solution if we have a valid serial
         if (valid) {
             Text(
                 "The money order has serial number a = $serial.The money order is identified by the first 10 digits ${
