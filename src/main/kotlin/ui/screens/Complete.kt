@@ -64,7 +64,9 @@ fun DigitTextField() {
 
                 }, textStyle = MaterialTheme.typography.headlineSmall)
             }
-            IconButton(onClick = {}) {
+            IconButton(onClick = {
+                Utils.setClipboard(value)
+            }) {
                 Icon(imageVector = Icons.Default.ContentCopy, contentDescription = "copy")
             }
         }
@@ -104,7 +106,9 @@ fun DigitTextField() {
                     }
                 }
                 if (complete.isNotEmpty()) {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = {
+                        Utils.setClipboard(complete)
+                    }) {
                         Icon(imageVector = Icons.Default.ContentCopy, contentDescription = "copy")
                     }
             }

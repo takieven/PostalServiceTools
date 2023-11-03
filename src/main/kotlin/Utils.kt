@@ -1,6 +1,9 @@
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.oned.Code128Writer
+import java.awt.Toolkit
+import java.awt.datatransfer.Clipboard
+import java.awt.datatransfer.StringSelection
 
 object Utils {
     fun checkDigit(serial: String, mod: Int): Boolean {
@@ -45,5 +48,12 @@ object Utils {
             }
         }
         return "No valid serial found"
+    }
+
+
+    fun setClipboard(s: String) {
+        val selection = StringSelection(s)
+        val clipboard: Clipboard = Toolkit.getDefaultToolkit().systemClipboard
+        clipboard.setContents(selection, selection)
     }
 }
