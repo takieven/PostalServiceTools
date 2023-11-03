@@ -15,8 +15,6 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Complete() {
-    var value by remember { mutableStateOf("") }
-
     Scaffold(
         modifier = Modifier.clip(RoundedCornerShape(16.dp, 0.dp, 0.dp)),
         topBar = {
@@ -25,7 +23,7 @@ fun Complete() {
             )
         },
         backgroundColor = MaterialTheme.colorScheme.surface,
-    ) { pad ->
+    ) {
         Box(Modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier.align(Alignment.Center),
@@ -37,7 +35,6 @@ fun Complete() {
 }
 
 @Composable
-@Preview
 fun DigitTextField() {
     var value by remember { mutableStateOf("") }
     var valid by remember { mutableStateOf(false) }
