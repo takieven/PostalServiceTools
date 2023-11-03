@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.FindInPage
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -14,10 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import ui.screens.About
+import ui.screens.Complete
 import ui.screens.Home
 
 @Composable
-@Preview
 fun App() {
     var screen by remember { mutableStateOf(SCREENS.HOME) }
 
@@ -35,6 +36,14 @@ fun App() {
                         Icon(imageVector = Icons.Default.Home, contentDescription = "home")
                     }
                     IconToggleButton(
+                        checked = screen == SCREENS.COMPLETE,
+                        onCheckedChange = {
+                            screen = SCREENS.COMPLETE
+                        }
+                    ) {
+                        Icon(imageVector = Icons.Default.FindInPage, "home")
+                    }
+                    IconToggleButton(
                         checked = screen == SCREENS.ABOUT,
                         onCheckedChange = {
                             screen = SCREENS.ABOUT
@@ -47,6 +56,7 @@ fun App() {
                 when (screen) {
                     SCREENS.HOME -> Home()
                     SCREENS.ABOUT-> About()
+                    SCREENS.COMPLETE -> Complete()
                 }
             }
     }
@@ -67,5 +77,6 @@ fun main() = application {
 
 enum class SCREENS {
     HOME,
-    ABOUT
+    COMPLETE,
+    ABOUT,
 }
