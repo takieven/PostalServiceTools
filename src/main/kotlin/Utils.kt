@@ -33,4 +33,17 @@ object Utils {
             null
         }
     }
+
+    fun findMissingDigit(input: String): String {
+        input.find { it == 'x' }?.let {
+            val mod = 9
+            for (i in 0..9) {
+                val serial = input.replace("x", i.toString())
+                if (checkDigit(serial, mod)) {
+                    return serial
+                }
+            }
+        }
+        return "No valid serial found"
+    }
 }
