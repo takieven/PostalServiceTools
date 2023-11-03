@@ -42,7 +42,7 @@ fun DigitTextField() {
     var value by remember { mutableStateOf("xxxxxxxxxxx") }
     var valid by remember { mutableStateOf(false) }
     var complete by remember { mutableStateOf("") }
-    var index = 0;
+    var index = 0
 
     Column(Modifier.padding(10.dp).offset(y=(-30).dp)) {
         FlowRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
