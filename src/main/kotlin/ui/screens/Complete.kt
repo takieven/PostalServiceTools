@@ -48,6 +48,9 @@ fun DigitTextField() {
         FlowRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             value.forEachIndexed { i, it ->
                 OutlinedTextField(modifier = Modifier.width(45.dp).padding(top = 10.dp), value = it.toString(), onValueChange = { char ->
+                    if (char.length>=11) {
+                        value = char.filter { it.isDigit() }
+                    }
                     if (char.isEmpty()) {
                         value = value.replaceRange(i, i + 1, "x")
                     }
