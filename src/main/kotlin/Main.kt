@@ -10,6 +10,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.res.loadImageBitmap
+import androidx.compose.ui.res.useResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
@@ -65,6 +68,7 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         title = "CheckMate USPS",
+        icon = BitmapPainter(useResource("icon.png", ::loadImageBitmap))
     ) {
         Surface(
             color = Color(55, 55, 55),
