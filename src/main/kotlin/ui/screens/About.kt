@@ -16,18 +16,18 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun About() {
-        Scaffold(
-            modifier = Modifier.clip(RoundedCornerShape(16.dp)),
-            topBar = {
-                TopAppBar(
-                    title = { Text("About", color = MaterialTheme.colorScheme.primary) },
-                )
-            },
-        ) {
-            Box(Modifier.fillMaxSize()) {
+    Scaffold(
+        modifier = Modifier.clip(RoundedCornerShape(16.dp)),
+        topBar = {
+            TopAppBar(
+                title = { Text("About", color = MaterialTheme.colorScheme.primary) },
+            )
+        },
+    ) {
+        Box(Modifier.fillMaxSize()) {
             Column(Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
                 Card(Modifier.fillMaxWidth(.8f)) {
-                    Column(Modifier.padding(30.dp).fillMaxWidth(),horizontalAlignment = Alignment.CenterHorizontally) {
+                    Column(Modifier.padding(30.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                         Header(text = "Group 6")
                         Spacer(Modifier.height(10.dp))
                         Column {
@@ -39,7 +39,7 @@ fun About() {
                 }
                 Spacer(Modifier.height(10.dp))
                 Card(Modifier.fillMaxWidth(.8f)) {
-                    Column(Modifier.padding(30.dp).fillMaxWidth(),horizontalAlignment = Alignment.CenterHorizontally) {
+                    Column(Modifier.padding(30.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                         Header(text = "Libraries Used")
                         Spacer(Modifier.height(10.dp))
                         Column {
@@ -48,8 +48,8 @@ fun About() {
                     }
                 }
             }
-            }
         }
+    }
 }
 
 @Composable
