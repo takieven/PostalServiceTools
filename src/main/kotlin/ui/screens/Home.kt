@@ -1,6 +1,6 @@
 package ui.screens
 
-import Utils
+import logic.Utils
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
