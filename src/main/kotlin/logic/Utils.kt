@@ -40,10 +40,10 @@ object Utils {
     }
 
     fun findMissingDigit(input: String): String {
-        input.find { it == 'x' }?.let {
+        input.find { it == ' ' }?.let {
             val mod = 9
             for (i in 0..9) {
-                val serial = input.replace("x", i.toString())
+                val serial = input.replace(" ", i.toString())
                 if (checkDigit(serial, mod)) {
                     return serial
                 }

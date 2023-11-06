@@ -3,6 +3,8 @@ package ui.screens
 import logic.Utils
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomSheetScaffold
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
@@ -14,15 +16,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun Complete() {
-    Scaffold(
+    BottomSheetScaffold(
         modifier = Modifier.clip(RoundedCornerShape(16.dp, 0.dp, 0.dp)),
         topBar = {
             TopAppBar(
                 title = { Text("Find Missing Digit", color = MaterialTheme.colorScheme.primary) },
             )
+        },
+        sheetContent = {
+                       Solution("")
         },
         backgroundColor = MaterialTheme.colorScheme.surface,
     ) {
@@ -39,7 +44,7 @@ fun Complete() {
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun DigitTextField() {
-    var value by remember { mutableStateOf("xxxxxxxxxxx") }
+    var value by remember { mutableStateOf("           ") }
     var valid by remember { mutableStateOf(false) }
     var complete by remember { mutableStateOf("") }
     var index = 0
@@ -52,18 +57,18 @@ fun DigitTextField() {
                         value = char.filter { it.isDigit() }
                     }
                     if (char.isEmpty()) {
-                        value = value.replaceRange(i, i + 1, "x")
+                        value = value.replaceRange(i, i + 1, " ")
                     }
-                    if (char.length<=2&&char.contains("x")) {
+                    if (char.length<=2&&char.contains(" ")) {
                         if (char.isEmpty()) {
-                            value = value.replaceRange(i, i + 1, "x")
+                            value = value.replaceRange(i, i + 1, " ")
                         } else {
-                            char.filter { it.isDigit() }.ifEmpty { value = value.replaceRange(i, i + 1, "x"); return@OutlinedTextField }
+                            char.filter { it.isDigit() }.ifEmpty { value = value.replaceRange(i, i + 1, " "); return@OutlinedTextField }
                             value = value.replaceRange(i, i + 1, char.filter { it.isDigit() })
                         }
                     }
 
-                    valid = value.count { it == 'x' } == 1 && value.last() != 'x'
+                    valid = value.count { it == ' ' } == 1 && value.last() != ' '
 
                 }, textStyle = MaterialTheme.typography.headlineSmall)
             }
@@ -76,7 +81,7 @@ fun DigitTextField() {
         Spacer(Modifier.height(10.dp))
         Button(onClick = {
             complete = Utils.findMissingDigit(value)
-            index = value.indexOf('x')
+            index = value.indexOf(' ')
         }, enabled = valid) {
             Text("Complete")
         }
@@ -116,5 +121,11 @@ fun DigitTextField() {
                     }
             }
         }
+    }
+}
+@Composable
+fun Solution(serial: String) {
+    Column(Modifier.padding(10.dp)) {
+        Header("Solution")
     }
 }
