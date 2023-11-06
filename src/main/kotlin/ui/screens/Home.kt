@@ -1,5 +1,6 @@
 package ui.screens
 
+import MainViewModel
 import logic.Utils
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -24,9 +25,9 @@ import java.nio.file.Paths
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun Home() {
-    var input by remember { mutableStateOf(Utils.generateSerial(11)) }
-    var valid by remember { mutableStateOf(Utils.checkDigit(input, 9)) }
+fun Home(viewModel: MainViewModel) {
+    val input by viewModel.input.collectAsState()
+    val valid by viewModel.valid.collectAsState()
     var showHelp by remember { mutableStateOf(false) }
 
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
@@ -110,8 +111,7 @@ fun Home() {
                         modifier = Modifier.fillMaxWidth(.6f),
                         value = input,
                         onValueChange = {
-                            input = it.filter { digit -> digit.isDigit() }
-                            valid = Utils.checkDigit(input, 9)
+                            viewModel.updateInput(it.filter { digit -> digit.isDigit() })
                         },
                         placeholder = { Text("Serial number") },
                         isError = !valid,
@@ -129,8 +129,7 @@ fun Home() {
                 // The lower buttons
                 FlowRow(Modifier.padding(10.dp, 0.dp)) {
                     Button(onClick = {
-                        input = Utils.generateSerial(11)
-                        valid = Utils.checkDigit(input, 9)
+                        viewModel.updateInput(Utils.generateSerial(11))
                     },
                         enabled = when (!valid) {false->true; true->false}
                     ) {
@@ -140,8 +139,7 @@ fun Home() {
                     Spacer(Modifier.width(10.dp))
 
                     Button(onClick = {
-                        input += Utils.generateCheckDigit(9, input)
-                        valid = Utils.checkDigit(input, 9)
+                        viewModel.updateInput(input+Utils.generateCheckDigit(9, input))
                     },
                         enabled = when (valid) {false->true; true->false}
                     ) {

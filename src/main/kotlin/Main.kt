@@ -21,10 +21,10 @@ import ui.screens.Complete
 import ui.screens.Home
 
 @Composable
-fun App() {
-    var screen by remember { mutableStateOf(SCREENS.HOME) }
+fun App(viewModel: MainViewModel) {
+        var screen by remember { mutableStateOf(SCREENS.HOME) }
 
-    MaterialTheme {
+        MaterialTheme {
             Row(
                 Modifier.background(MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp)),
                 verticalAlignment = Alignment.CenterVertically,
@@ -56,15 +56,16 @@ fun App() {
                 }
 
                 when (screen) {
-                    SCREENS.HOME -> Home()
-                    SCREENS.ABOUT-> About()
-                    SCREENS.COMPLETE -> Complete()
+                    SCREENS.HOME -> Home(viewModel)
+                    SCREENS.ABOUT -> About()
+                    SCREENS.COMPLETE -> Complete(viewModel)
                 }
             }
-    }
+        }
 }
 
 fun main() = application {
+    val viewModel = MainViewModel()
     Window(
         onCloseRequest = ::exitApplication,
         title = "CheckMate USPS",
@@ -73,7 +74,7 @@ fun main() = application {
         Surface(
             color = Color(55, 55, 55),
         ) {
-            App()
+            App(viewModel)
         }
     }
 }
