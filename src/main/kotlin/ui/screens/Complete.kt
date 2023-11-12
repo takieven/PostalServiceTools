@@ -3,6 +3,7 @@ package ui.screens
 import MainViewModel
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.OutlinedTextField
@@ -19,6 +20,8 @@ import logic.Utils
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun Complete(viewModel: MainViewModel) {
+    val digits by viewModel.digitState.collectAsState()
+
     BottomSheetScaffold(
         modifier = Modifier.clip(RoundedCornerShape(16.dp, 0.dp, 0.dp)),
         topBar = {
@@ -26,8 +29,9 @@ fun Complete(viewModel: MainViewModel) {
                 title = { Text("Find Missing Digit", color = MaterialTheme.colorScheme.primary) },
             )
         },
+        sheetPeekHeight = 100.dp,
         sheetContent = {
-                       Solution("")
+                       Solution(digits.value, digits.index, digits.complete)
         },
         backgroundColor = MaterialTheme.colorScheme.surface,
     ) {
@@ -108,8 +112,45 @@ fun DigitTextField(viewModel: MainViewModel) {
     }
 }
 @Composable
-fun Solution(serial: String) {
+fun Solution(serial: String, index: Int, complete: String) {
+    val digit = serial.replace(" ", "x")
     Column(Modifier.padding(10.dp)) {
         Header("Solution")
+
+        SelectionContainer {
+            Column {
+                if (serial.isEmpty()) {
+                    Text("No valid serial found")
+                } else {
+                    Text(
+                        "The money order has serial number a = $digit.The money order is identified by the first 10 digits ${
+                            digit.removeSuffix(
+                                digit[digit.lastIndex].toString()
+                            )
+                        }. The 11th digit ${digit[digit.lastIndex]}, is the check digit."
+                    )
+
+                    Divider(Modifier.padding(vertical = 10.dp))
+
+                    val solution = StringBuilder()
+
+                    digit.forEachIndexed { i, it ->
+                        if (i < digit.lastIndex) {
+                            solution.append(it)
+                            if (i < digit.lastIndex - 1) {
+                                solution.append(" + ")
+                            }
+                        }
+                    }
+                    val sum = digit.toList().filter { it.isDigit() }.map { it.digitToInt() }.take(9).sum()
+
+                    solution.appendLine(" = sum")
+                    solution.appendLine("($sum + x) mod 9 = ${serial.last()}")
+                    solution.appendLine("($sum + ${complete[index]}) mod 9 = ${serial.last()}")
+                    solution.append("Therefore: x = ${complete[index]}")
+                    Text(solution.toString())
+                }
+            }
+        }
     }
 }

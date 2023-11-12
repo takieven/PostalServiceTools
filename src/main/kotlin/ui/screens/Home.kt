@@ -5,6 +5,7 @@ import logic.Utils
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
@@ -75,7 +76,10 @@ fun Home(viewModel: MainViewModel) {
                 )
             }
 
-            Column(Modifier.align(Alignment.Center).offset(0.dp, (-50).dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                Modifier.align(Alignment.Center).offset(0.dp, (-50).dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
 
                 // Barcode stuff
                 Box {
@@ -103,7 +107,7 @@ fun Home(viewModel: MainViewModel) {
                     }
                 }
 
-                Spacer(Modifier.height(15.dp))
+                Spacer(Modifier.height(30.dp))
 
                 // Input Textfield
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -124,7 +128,7 @@ fun Home(viewModel: MainViewModel) {
                     )
                 }
 
-                Spacer(Modifier.height(3.dp))
+                Spacer(Modifier.height(20.dp))
 
                 // The lower buttons
                 FlowRow(Modifier.padding(10.dp, 0.dp)) {
@@ -156,33 +160,37 @@ fun Home(viewModel: MainViewModel) {
 fun Details(serial: String, valid: Boolean) {
     Column(Modifier.padding(10.dp)) {
         Header("Solution")
-        Text("The United States Postal Service (USPS) uses 11-digit serial numbers on its money orders. The first ten digits identify the document, and the last digit is the check digit")
-        Divider(Modifier.padding(0.dp, 10.dp))
+        SelectionContainer {
+            Column {
+                Text("The United States Postal Service (USPS) uses 11-digit serial numbers on its money orders. The first ten digits identify the document, and the last digit is the check digit")
+                Divider(Modifier.padding(0.dp, 10.dp))
 
-        // We only show the solution if we have a valid serial
-        if (valid) {
-            Text(
-                "The money order has serial number a = $serial.The money order is identified by the first 10 digits ${
-                    serial.removeSuffix(
-                        serial[serial.lastIndex].toString()
+                // We only show the solution if we have a valid serial
+                if (valid) {
+                    Text(
+                        "The money order has serial number a = $serial.The money order is identified by the first 10 digits ${
+                            serial.removeSuffix(
+                                serial[serial.lastIndex].toString()
+                            )
+                        }. The 11th digit ${serial[serial.lastIndex]} is the check digit."
                     )
-                }. The 11th digit ${serial[serial.lastIndex]} is the check digit."
-            )
-                val solution = StringBuilder()
+                    val solution = StringBuilder()
 
-            serial.forEachIndexed { i, digit ->
-                if (i < serial.lastIndex) {
-                    solution.append(digit)
-                    if (i < serial.lastIndex - 1) {
-                        solution.append(" + ")
+                    serial.forEachIndexed { i, digit ->
+                        if (i < serial.lastIndex) {
+                            solution.append(digit)
+                            if (i < serial.lastIndex - 1) {
+                                solution.append(" + ")
+                            }
+                        }
                     }
+                    val sum = serial.toList().map { it.digitToInt() }.take(10).sum()
+
+                    solution.appendLine(" = $sum")
+                    solution.append("$sum mod 9 = ${sum % 9}")
+                    Text(solution.toString())
                 }
             }
-                val sum = serial.toList().map { it.digitToInt() }.take(10).sum()
-
-            solution.appendLine(" = $sum")
-                    solution . append ("$sum mod 9 = ${sum % 9}")
-                    Text (solution.toString())
         }
     }
 }
