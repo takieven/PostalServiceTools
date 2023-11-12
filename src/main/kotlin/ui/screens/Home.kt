@@ -111,13 +111,13 @@ fun Home(viewModel: MainViewModel) {
 
                 // Input Textfield
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    TextField(
+                    OutlinedTextField(
+                        label = { Text("Serial number") },
                         modifier = Modifier.fillMaxWidth(.6f),
                         value = input,
                         onValueChange = {
                             viewModel.updateInput(it.filter { digit -> digit.isDigit() })
                         },
-                        placeholder = { Text("Serial number") },
                         isError = !valid,
                         trailingIcon = {
                             when (valid) {
