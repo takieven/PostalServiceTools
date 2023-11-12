@@ -3,7 +3,7 @@ import kotlinx.coroutines.flow.update
 import logic.Utils
 
 class MainViewModel {
-    val input = MutableStateFlow(Utils.generateSerial(11))
+    val input = MutableStateFlow("")
     val valid = MutableStateFlow(Utils.checkDigit(input.value, 9))
     val digitState = MutableStateFlow(DigitState())
 

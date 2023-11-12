@@ -135,7 +135,7 @@ fun Home(viewModel: MainViewModel) {
                     Button(onClick = {
                         viewModel.updateInput(Utils.generateSerial(11))
                     },
-                        enabled = when (!valid) {false->true; true->false}
+//                        enabled = when (!valid) {false->true; true->false}
                     ) {
                         Text("Generate valid serial")
                     }
