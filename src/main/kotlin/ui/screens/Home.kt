@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.google.zxing.client.j2se.MatrixToImageWriter
 import org.jetbrains.skiko.toBitmap
 import ui.components.AlertDialogExample
+import ui.components.Title
 import java.nio.file.Paths
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
@@ -38,7 +39,7 @@ fun Home(viewModel: MainViewModel) {
         topBar = {
             TopAppBar(
                 modifier = Modifier.padding(end = 10.dp),
-                title = { Text("Validate a Serial Number", color = MaterialTheme.colorScheme.primary) },
+                title = { Title("Validate a serial number") },
                 actions = {
                     IconButton(onClick = {
                         showHelp = !showHelp

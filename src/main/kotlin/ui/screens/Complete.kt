@@ -1,6 +1,7 @@
 package ui.screens
 
 import MainViewModel
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -14,8 +15,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import logic.Utils
+import ui.components.Title
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
@@ -26,7 +30,7 @@ fun Complete(viewModel: MainViewModel) {
         modifier = Modifier.clip(RoundedCornerShape(16.dp, 0.dp, 0.dp)),
         topBar = {
             TopAppBar(
-                title = { Text("Find Missing Digit", color = MaterialTheme.colorScheme.primary) },
+                title = {  Title("Find Missing Digit") },
             )
         },
         sheetPeekHeight = 100.dp,
@@ -46,6 +50,7 @@ fun Complete(viewModel: MainViewModel) {
 }
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+@Preview
 @Composable
 fun DigitTextField(viewModel: MainViewModel) {
     val state by viewModel.digitState.collectAsState()
@@ -54,7 +59,9 @@ fun DigitTextField(viewModel: MainViewModel) {
     val complete = state.complete
     val index = state.index
 
-    Column(Modifier.padding(10.dp).offset(y=(-30).dp)) {
+    Column(Modifier.padding(10.dp).offset(y=(-50).dp)) {
+        // Serial Number Input
+        Text("Serial Number", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Medium, color = Color.DarkGray)
         FlowRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             value.forEachIndexed { i, it ->
                 OutlinedTextField(modifier = Modifier.width(45.dp).padding(top = 10.dp), value = it.toString(), onValueChange = { char ->

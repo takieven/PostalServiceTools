@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import ui.components.Title
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -20,7 +21,7 @@ fun About() {
         modifier = Modifier.clip(RoundedCornerShape(16.dp)),
         topBar = {
             TopAppBar(
-                title = { Text("About", color = MaterialTheme.colorScheme.primary) },
+                title = { Title("About") },
             )
         },
     ) {

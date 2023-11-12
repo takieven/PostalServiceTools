@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.FindInPage
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.PostAdd
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,6 +20,7 @@ import androidx.compose.ui.window.application
 import ui.screens.About
 import ui.screens.Complete
 import ui.screens.Home
+import ui.screens.Postal
 
 @Composable
 fun App(viewModel: MainViewModel) {
@@ -46,6 +48,14 @@ fun App(viewModel: MainViewModel) {
                         Icon(imageVector = Icons.Default.FindInPage, "home")
                     }
                     IconToggleButton(
+                        checked = screen == SCREENS.POSTAL,
+                        onCheckedChange = {
+                            screen = SCREENS.POSTAL
+                        }
+                    ) {
+                        Icon(imageVector = Icons.Default.PostAdd, "home")
+                    }
+                    IconToggleButton(
                         checked = screen == SCREENS.ABOUT,
                         onCheckedChange = {
                             screen = SCREENS.ABOUT
@@ -57,8 +67,9 @@ fun App(viewModel: MainViewModel) {
 
                 when (screen) {
                     SCREENS.HOME -> Home(viewModel)
-                    SCREENS.ABOUT -> About()
                     SCREENS.COMPLETE -> Complete(viewModel)
+                    SCREENS.POSTAL -> Postal()
+                    SCREENS.ABOUT -> About()
                 }
             }
         }
@@ -82,5 +93,6 @@ fun main() = application {
 enum class SCREENS {
     HOME,
     COMPLETE,
+    POSTAL,
     ABOUT,
 }
