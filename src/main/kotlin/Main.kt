@@ -82,10 +82,12 @@ fun main() = application {
         title = "CheckMate USPS",
         icon = BitmapPainter(useResource("icon.png", ::loadImageBitmap))
     ) {
-        Surface(
-            color = Color(55, 55, 55),
-        ) {
-            App(viewModel)
+        CheckDigitTheme {
+            Surface(
+                color = Color(55, 55, 55),
+            ) {
+                App(viewModel)
+            }
         }
     }
 }

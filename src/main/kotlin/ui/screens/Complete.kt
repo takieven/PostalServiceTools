@@ -61,7 +61,7 @@ fun DigitTextField(viewModel: MainViewModel) {
 
     Column(Modifier.padding(10.dp).offset(y=(-50).dp)) {
         // Serial Number Input
-        Text("Serial Number", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Medium, color = Color.DarkGray)
+        Text("Serial Number", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Normal, color = Color.DarkGray)
         FlowRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             value.forEachIndexed { i, it ->
                 OutlinedTextField(modifier = Modifier.width(45.dp).padding(top = 10.dp), value = it.toString(), onValueChange = { char ->
@@ -89,11 +89,11 @@ fun DigitTextField(viewModel: MainViewModel) {
                             value = it.toString(),
                             onValueChange = {},
                             textStyle = MaterialTheme.typography.headlineSmall, enabled = false,
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                            colors = OutlinedTextFieldDefaults.colors(
+                                disabledTextColor = MaterialTheme.colorScheme.primary,
                                 focusedBorderColor = MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = MaterialTheme.colorScheme.primary,
                                 disabledBorderColor = MaterialTheme.colorScheme.primary,
-                                disabledTextColor = MaterialTheme.colorScheme.primary
                             )
                         )
                     } else {
@@ -102,8 +102,8 @@ fun DigitTextField(viewModel: MainViewModel) {
                             value = it.toString(),
                             onValueChange = {},
                             textStyle = MaterialTheme.typography.headlineSmall, enabled = false,
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                disabledTextColor = MaterialTheme.colorScheme.onSurface
+                            colors = OutlinedTextFieldDefaults.colors(
+                                disabledTextColor = MaterialTheme.colorScheme.onSurface,
                             )
                         )
                     }
