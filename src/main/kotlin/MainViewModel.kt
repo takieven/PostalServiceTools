@@ -1,6 +1,9 @@
+import androidx.compose.ui.res.useResource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import logic.Utils
+import logic.Utils.readCsv
+import ui.screens.PostalCode
 
 class MainViewModel {
     val input = MutableStateFlow("")
@@ -47,6 +50,25 @@ class MainViewModel {
             )
         }
     }
+
+    // Postal
+    val postalState = MutableStateFlow(PostalState())
+
+    fun updateSearch(text: String) {
+        postalState.update {
+            it.copy(search = text)
+        }
+    }
+
+    init {
+        useResource("zips.csv") {stream ->
+            val zips: MutableList<PostalCode> = mutableListOf()
+            readCsv(stream).forEach { shit ->
+                zips.add(shit)
+            }
+            postalState.value = PostalState(zips)
+        }
+    }
 }
 
 data class DigitState(
@@ -54,4 +76,9 @@ data class DigitState(
     val valid: Boolean = false,
     val complete: String = "           ",
     val index: Int = 0
+)
+
+data class PostalState(
+    val zips: List<PostalCode> = listOf(),
+    val search: String = ""
 )

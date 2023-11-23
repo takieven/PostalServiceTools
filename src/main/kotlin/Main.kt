@@ -68,7 +68,7 @@ fun App(viewModel: MainViewModel) {
                 when (screen) {
                     SCREENS.HOME -> Home(viewModel)
                     SCREENS.COMPLETE -> Complete(viewModel)
-                    SCREENS.POSTAL -> Postal()
+                    SCREENS.POSTAL -> Postal(viewModel)
                     SCREENS.ABOUT -> About()
                 }
             }

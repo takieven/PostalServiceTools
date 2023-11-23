@@ -3,9 +3,11 @@ package logic
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.oned.Code128Writer
+import ui.screens.PostalCode
 import java.awt.Toolkit
 import java.awt.datatransfer.Clipboard
 import java.awt.datatransfer.StringSelection
+import java.io.InputStream
 
 object Utils {
     fun checkDigit(serial: String, mod: Int): Boolean {
@@ -52,6 +54,13 @@ object Utils {
         return "No valid serial found"
     }
 
+    fun readCsv(inputStream: InputStream): List<PostalCode> {
+        val reader = inputStream.bufferedReader()
+        return reader.lineSequence().map {
+            val (province, barangay, code) = it.split(",")
+            PostalCode(province, barangay, code)
+        }.toList()
+    }
 
     fun setClipboard(s: String) {
         val selection = StringSelection(s)
